@@ -9,9 +9,9 @@
         <!-- 记得给容器绑定:model,:rules,这是规定 -->
         <el-form ref="loginFrom" :model="loginFrom" style = 'margin-top:20px' :rules="loginRules">
             <!-- 表单项 -->
-            <el-form-item prop="tell" >
+            <el-form-item prop="mobile" >
                 <!-- 放置组件内容 -->
-                <el-input v-model="loginFrom.tell" placeholder="请输入正确的手机号"></el-input>
+                <el-input v-model="loginFrom.mobile" placeholder="请输入正确的手机号"></el-input>
             </el-form-item>
 
             <!-- 表单项 -->
@@ -41,19 +41,19 @@ export default {
   data () {
     let validator = function (rule, value, callBack) {
       if (value) {
-        callBack()
+        callBack()// 执行回调函数
       } else {
-        callBack(new Error('您必须同意'))
+        callBack(new Error('您必须同意'))// 抛出错误
       }
     }
     return {
       loginFrom: {
-        tell: '',
+        mobile: '',
         code: '',
         check: true
       }, // 制定表单校验规则
       loginRules: {
-        tell: [{
+        mobile: [{
           required: true,
           message: '手机号不能为空'
         }, {
@@ -67,7 +67,7 @@ export default {
           pattern: /^\d{6}$/,
           message: '验证不能为空'
         }],
-        check: [{// 要用自定义校验函数
+        check: [{// 要用自定义校验函数,可以写在return前面,就写前面了
           validator
         }]
       }
@@ -77,15 +77,23 @@ export default {
     add () {
       this.$refs.loginFrom.validate((isOK, obj) => {
         if (isOK) {
-          this.$message({ type: 'sucsess', message: '成功' })
+          this.$http({// data携带请求体body参数
+            url: '/authorizations',
+            method: 'post',
+            data: this.loginFrom
+
+          }).then(res => {
+            console.log(res.data)
+            window.localStorage.setItem('user-token', res.data.data.token)
+          }).catch(err => {
+            this.$message({ message: '手机号或密码错误', type: 'warning' })
+            console.log(err)
+          })
         } else {
-          this.$message({ type: 'warning', message: '失败' })
+
         }
       })
     }
-  },
-  mounted () {
-
   }
 
 }
