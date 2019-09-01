@@ -85,6 +85,7 @@ export default {
           }).then(res => {
             console.log(res.data)
             window.localStorage.setItem('user-token', res.data.data.token)
+            this.$router.push('/')
           }).catch(err => {
             this.$message({ message: '手机号或密码错误', type: 'warning' })
             console.log(err)
