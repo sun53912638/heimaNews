@@ -1,6 +1,6 @@
 <template>
   <el-row class="layout-header" type="flex" justify="space-between">
-    <el-col :span="6" class="left">
+    <el-col :span="7" class="left">
       <i class="el-icon-s-unfold"></i>
       <span>江苏传智播客教育科技股份有限公司</span>
     </el-col>
@@ -76,7 +76,7 @@ export default {
     .head-img {
       border-radius: 50%;
       padding-right: 6px;
-      width: 50px;
+      width: 40px;
     }
   }
 }
