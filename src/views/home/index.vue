@@ -20,13 +20,8 @@
 </template>
 
 <script>
-import leftAside from '../../compnents/home/leftaside.vue'
-import layoutHeader from '../../compnents/home/layout-heder.vue'
+
 export default {
-  components: {
-    'left-aside': leftAside,
-    'layout-header': layoutHeader
-  }
 }
 </script>
 
