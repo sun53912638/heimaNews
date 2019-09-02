@@ -13,7 +13,7 @@
   </el-header>
   <!-- 中间 -->
   <el-main>
-    中间
+    <router-view></router-view>
   </el-main>
   </el-container>
 </el-container>

@@ -1,71 +1,68 @@
 <template>
-<div class="leftaside">
+  <div class="leftaside">
     <div class="top">
-        <img src="../../assets/img/logo_admin.png" alt="">
+      <img src="../../assets/img/logo_admin.png" alt />
     </div>
     <el-menu
       background-color="#353b4e"
       text-color="#adafb5"
-      active-text-color="#ffd04b"  class="menu">
-      <el-menu-item index="1">
+      active-text-color="#ffd04b"
+      router
+      style="border:none"
+    >
+      <el-menu-item index="/">
         <i class="el-icon-reading"></i>
         <span slot="title">首页</span>
       </el-menu-item>
-       <el-submenu index="5">
+      <el-submenu index= "1">
         <template slot="title">
           <i class="el-icon-notebook-2"></i>
           <span>内容管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="1-1">发布文章</el-menu-item>
-          <el-menu-item index="1-2">内容列表</el-menu-item>
-          <el-menu-item index="1-3">评论列表</el-menu-item>
-          <el-menu-item index="1-4">素材管理</el-menu-item>
+          <el-menu-item index="/home/publish">发布文章</el-menu-item>
+          <el-menu-item index="/home/articles">内容列表</el-menu-item>
+          <el-menu-item index="/home/comment">评论列表</el-menu-item>
+          <el-menu-item index="/home/material">素材管理</el-menu-item>
         </el-menu-item-group>
-       </el-submenu>
-       <el-submenu index="6">
+      </el-submenu>
+      <el-submenu index= "2">
         <template slot="title">
           <i class="el-icon-ice-tea"></i>
           <span>粉丝管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="1-5">图文数据</el-menu-item>
-          <el-menu-item index="1-6">粉丝概况</el-menu-item>
-          <el-menu-item index="1-7">粉丝画像</el-menu-item>
-          <el-menu-item index="1-8">粉丝列表</el-menu-item>
+          <el-menu-item index="/home/fans1">图文数据</el-menu-item>
+          <el-menu-item index="/home/fans2">粉丝概况</el-menu-item>
+          <el-menu-item index="/home/fans">粉丝画像</el-menu-item>
+          <el-menu-item index="/home/fans">粉丝列表</el-menu-item>
         </el-menu-item-group>
-       </el-submenu>
-      <el-menu-item index="4">
+      </el-submenu>
+      <el-menu-item index="/home/account">
         <i class="el-icon-chat-line-round"></i>
         <span slot="title">账户信息</span>
       </el-menu-item>
     </el-menu>
-</div>
+  </div>
 </template>
 
 <script>
-export default {
-
-}
+export default {}
 </script>
 
 <style lang='less' scoped>
 .leftaside {
-    width: 200px;
-    height: 100vh;
-    background-color: #353b4e;
-   .top {
+  width: 200px;
+  height: 100vh;
+  background-color: #353b4e;
+  .top {
     height: 50px;
     background-color: #2e2f32;
     text-align: center;
     padding-top: 6px;
     img {
-        height: 30px;
+      height: 30px;
     }
-    .menu {
-        border-right: 1px solid #353b4e;
-    }
-
-}
+  }
 }
 </style>
