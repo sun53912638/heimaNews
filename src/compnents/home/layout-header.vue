@@ -31,10 +31,8 @@ export default {
   },
   methods: {
     getUserInfo () {
-      let token = window.localStorage.getItem('user-token')// 获取token
       this.$http({
-        url: '/user/profile',
-        headers: { 'Authorization': `Bearer ${token}` }// 注意Bearer后面要有空格!!!
+        url: '/user/profile'
       }).then(res => {
         this.userInfo = res.data.data
         console.log(this.userInfo)
