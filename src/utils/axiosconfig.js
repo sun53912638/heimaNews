@@ -11,6 +11,11 @@ axios.interceptors.request.use(function (config) {
   return config
 }, function () {})
 
+// 响应拦截器
+axios.interceptors.response.use(function (response) {
+  return response.data ? response.data : {}// 里面是请求的返回结果
+}, function () {})
+
 export default {
   install (Vue) {
     Vue.prototype.$http = axios// Vue对象的原型赋值,所有Vue实例自动拥有$http属性
