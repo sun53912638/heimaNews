@@ -3,7 +3,7 @@
 <el-container>
   <!-- 左侧 -->
   <el-aside>
-    左侧
+    <left-aside></left-aside>
   </el-aside>
   <!-- 右侧 -->
   <el-container>
@@ -20,8 +20,11 @@
 </template>
 
 <script>
+import leftAside from '../../compnents/home/leftaside.vue'
 export default {
-
+  components: {
+    'left-aside': leftAside
+  }
 }
 </script>
 

@@ -1,45 +1,46 @@
 <template>
-<el-menu
-      default-active="2"
-      class="el-menu-vertical-demo"
-      @open="handleOpen"
-      @close="handleClose"
-      background-color="#545c64"
-      text-color="#fff"
-      active-text-color="#ffd04b">
-      <el-submenu index="1">
+<div class="leftaside">
+    <div class="top">
+        <img src="../../assets/img/logo_admin.png" alt="">
+    </div>
+    <el-menu
+      background-color="#353b4e"
+      text-color="#adafb5"
+      active-text-color="#ffd04b"  class="menu">
+      <el-menu-item index="1">
+        <i class="el-icon-reading"></i>
+        <span slot="title">首页</span>
+      </el-menu-item>
+       <el-submenu index="5">
         <template slot="title">
-          <i class="el-icon-location"></i>
-          <span>导航一</span>
+          <i class="el-icon-notebook-2"></i>
+          <span>内容管理</span>
         </template>
         <el-menu-item-group>
-          <template slot="title">分组一</template>
-          <el-menu-item index="1-1">选项1</el-menu-item>
-          <el-menu-item index="1-2">选项2</el-menu-item>
+          <el-menu-item index="1-1">发布文章</el-menu-item>
+          <el-menu-item index="1-2">内容列表</el-menu-item>
+          <el-menu-item index="1-3">评论列表</el-menu-item>
+          <el-menu-item index="1-4">素材管理</el-menu-item>
         </el-menu-item-group>
-        <el-menu-item-group title="分组2">
-          <el-menu-item index="1-3">选项3</el-menu-item>
+       </el-submenu>
+       <el-submenu index="6">
+        <template slot="title">
+          <i class="el-icon-ice-tea"></i>
+          <span>粉丝管理</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item index="1-5">图文数据</el-menu-item>
+          <el-menu-item index="1-6">粉丝概况</el-menu-item>
+          <el-menu-item index="1-7">粉丝画像</el-menu-item>
+          <el-menu-item index="1-8">粉丝列表</el-menu-item>
         </el-menu-item-group>
-        <el-submenu index="1-4">
-          <template slot="title">选项4</template>
-          <el-menu-item index="1-4-1">选项1</el-menu-item>
-        </el-submenu>
-      </el-submenu>
-      <el-menu-item index="2">
-        <i class="el-icon-menu"></i>
-        <span slot="title">导航二</span>
-      </el-menu-item>
-      <el-menu-item index="3" disabled>
-        <i class="el-icon-document"></i>
-        <span slot="title">导航三</span>
-      </el-menu-item>
+       </el-submenu>
       <el-menu-item index="4">
-        <i class="el-icon-setting"></i>
-        <span slot="title">导航四</span>
+        <i class="el-icon-chat-line-round"></i>
+        <span slot="title">账户信息</span>
       </el-menu-item>
     </el-menu>
-  </el-col>
-</el-row>
+</div>
 </template>
 
 <script>
@@ -48,6 +49,23 @@ export default {
 }
 </script>
 
-<style>
+<style lang='less' scoped>
+.leftaside {
+    width: 200px;
+    height: 100vh;
+    background-color: #353b4e;
+   .top {
+    height: 50px;
+    background-color: #2e2f32;
+    text-align: center;
+    padding-top: 6px;
+    img {
+        height: 30px;
+    }
+    .menu {
+        border-right: 1px solid #353b4e;
+    }
 
+}
+}
 </style>
