@@ -12,7 +12,7 @@
       <el-table-column width="200" align="center" prop label="操作">
         <template slot-scope="obj"><!-- 这是作用域插槽,elementUI提供的,通过slot-scope属性可以取到一个对象,通过这个对象可以取到行数据,然后可以取到行数据里面的值-->
           <el-button size="mini" round type="primary" icon="el-icon-view">修改</el-button>
-          <el-button size="mini" :type="obj.row.comment_status ? 'success' : 'warning'" round >{{obj.row.comment_status ? '关闭' : '打开'}}评论</el-button>
+          <el-button @click="getConment(obj.row)" size="mini" :type="obj.row.comment_status ? 'success' : 'warning'" round >{{obj.row.comment_status ? '关闭' : '打开'}}评论</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -27,6 +27,30 @@ export default {
     }
   },
   methods: {
+    getConment (row) {
+      console.log(row.id)
+      let mess = row.comment_status ? '关闭' : '打开'
+      this.$confirm(`嘿,你要${mess}评论嘛`, '悄悄话', {
+        confirmButtonText: '嗯呢',
+        cancelButtonText: '再考虑一下',
+        type: 'warning',
+        center: true
+
+      }).then(() => {
+        this.$http({
+          method: 'put',
+          url: '/comments/status',
+          params: { article_id: row.id },
+          data: { allow_comment: !row.comment_status }
+        }).then(res => {
+          this.getConment()
+        })
+        this.$message({
+          type: 'success',
+          message: '已经关闭了哦!'
+        })
+      })
+    },
     formatter (row) {
       // formatter是el-column的属性可以根据布尔值显示数据
       return row.comment_status ? '正常' : '关闭'
