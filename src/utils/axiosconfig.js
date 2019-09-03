@@ -2,10 +2,17 @@
 
 import axios from 'axios'
 import router from '../router'
+import JsonBig from 'json-bigint' // 处理js数据精度
 import {
   Message
-} from 'element-ui' // elementui提供的方法,提示消息
+} from 'element-ui' // elementui提供的方法,
+
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0' // 赋值基础地址
+axios.defaults.transformResponse = [function (data) {
+  // debugger
+  return JsonBig.parse(data)
+}]
+
 // 请求拦截器
 axios.interceptors.request.use(function (config) {
   // config是axios的默认请求配置和传入的配置结合出来的

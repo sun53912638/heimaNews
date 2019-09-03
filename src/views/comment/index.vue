@@ -28,7 +28,6 @@ export default {
   },
   methods: {
     getConment (row) {
-      console.log(row.id)
       let mess = row.comment_status ? '关闭' : '打开'
       this.$confirm(`嘿,你要${mess}评论嘛`, '悄悄话', {
         confirmButtonText: '嗯呢',
@@ -40,14 +39,20 @@ export default {
         this.$http({
           method: 'put',
           url: '/comments/status',
-          params: { article_id: row.id },
+          params: { article_id: row.id.toString() },
           data: { allow_comment: !row.comment_status }
         }).then(res => {
-          this.getConment()
+          this.getVomments()
         })
+        console.log(row.id.toString())
         this.$message({
           type: 'success',
-          message: '已经关闭了哦!'
+          message: `已经${mess}了哦!`
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '别人可以评论你喽'
         })
       })
     },
