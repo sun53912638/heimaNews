@@ -32,11 +32,11 @@
       <div class="article-item" v-for="(item,index) in list" :key="index">
         <!--左侧内容  -->
         <div class="left">
-          <img src="../../assets/img/404.png" alt />
+          <img :src="item.cover.images.length ? item.cover.images[0] :iconImg" alt />
           <div class="info">
-            <span class="title">y欧内鬼</span>
-            <el-tag type="success" style="width:60px">已发表</el-tag>
-            <span class="date">2019-02-02</span>
+            <span class="title">{{item.title}}</span>
+            <el-tag type="success" style="width:60px">{{item.status | statusText}}</el-tag>
+            <span class="date">{{item.pubdate}}</span>
           </div>
         </div>
         <!-- 右侧内容 -->
@@ -57,7 +57,37 @@
 export default {
   data () {
     return {
-      list: [1, 2, 3, 4]
+      list: [],
+      iconImg: require('../../assets/img/404.png')
+    }
+  },
+  methods: {
+    getArticles () {
+      this.$http({
+        url: '/articles'
+      }).then(res => {
+        this.list = res.data.results
+      })
+      console.log(this.list)
+    }
+  },
+  created () {
+    this.getArticles()
+  },
+  filters: {
+    statusText (val) {
+      switch (val) {
+        case 0:
+          return '草稿'
+        case 1:
+          return '待审核'
+        case 2:
+          return '已发表'
+        case 3:
+          return '审核失败'
+        default:
+          break
+      }
     }
   }
 }

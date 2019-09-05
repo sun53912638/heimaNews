@@ -83,7 +83,7 @@ export default {
             data: this.loginFrom
 
           }).then(res => {
-            console.log(res.data)
+            // console.log(res.data)
             window.localStorage.setItem('user-token', res.data.token)
             this.$router.push('/')
           })
