@@ -2,7 +2,7 @@
 <!-- 最外侧 -->
 <el-container>
   <!-- 左侧 -->
-  <el-aside style="width:200px;background-color: #353b4e">
+  <el-aside style="width:200px;background: #23EBBA">
     <left-aside></left-aside>
   </el-aside>
   <!-- 右侧 -->

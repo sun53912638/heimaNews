@@ -4,9 +4,9 @@
       <img src="../../assets/img/logo_admin.png" alt />
     </div>
     <el-menu
-      background-color="#353b4e"
-      text-color="#adafb5"
-      active-text-color="#ffd04b"
+      background-color="#23EBBA"
+      text-color="#ffc"
+     active-text-color="#ffd04b"
       router
       style="border:none"
     >
@@ -54,10 +54,10 @@ export default {}
 .leftaside {
   width: 200px;
   height: 100vh;
-  background-color: #353b4e;
+  background: #23EBBA;
   .top {
     height: 50px;
-    background-color: #2e2f32;
+    background-color:rgb(174, 235, 219);
     text-align: center;
     padding-top: 6px;
     img {

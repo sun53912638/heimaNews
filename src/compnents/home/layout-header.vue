@@ -72,9 +72,10 @@ export default {
     display: flex;
     align-items: center;
     .head-img {
-      border-radius: 50%;
-      padding-right: 6px;
       width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 4px;
     }
   }
 }
