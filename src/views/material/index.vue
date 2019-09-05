@@ -3,6 +3,10 @@
     <bread-crumb slot="header">
       <template slot="title">素材管理</template>
     </bread-crumb>
+    <!-- 上传组件 -->
+    <el-upload class="upload-img" :show-file-list="false" action="" :http-request="uploadImg" >
+        <el-button type="primary" size="small">上传图片</el-button>
+    </el-upload>
     <el-tabs type="card" v-model="activeName" @tab-click="changeTab">
       <el-tab-pane label="全部素材" name="all">
         <!-- 全部素材 -->
@@ -17,6 +21,7 @@
               ></i>
               <i @click="delImg(item.id)" class="el-icon-delete-solid"></i>
             </el-row>
+
           </el-card>
         </div>
         <el-row type="flex" justify="center">
@@ -66,6 +71,18 @@ export default {
     }
   },
   methods: {
+    uploadImg (params) { // 选择完图片之后执行
+      let obj = new FormData()
+      obj.append('image', params.file)
+      console.log(params)
+      this.$http({
+        url: '/user/images',
+        method: 'post',
+        data: obj
+      }).then(res => {
+        this.getMaterial()
+      })
+    },
     collectOrCancal (item) {
       let mess = item.is_collected ? '取消' : ''
       this.$confirm(`您确认要${mess}收藏么`, '悄悄话').then(() => {
@@ -120,6 +137,11 @@ export default {
 
 <style lang="less" scoped>
 .material {
+    .upload-img {
+        position: absolute;
+        right: 10px;
+        margin-top: -4px;
+    }
   .card-list {
     display: flex;
     flex-wrap: wrap;
