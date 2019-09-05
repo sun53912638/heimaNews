@@ -10,7 +10,7 @@ import {
 axios.defaults.baseURL = 'http://ttapi.research.itcast.cn/mp/v1_0' // 赋值基础地址
 axios.defaults.transformResponse = [function (data) {
   // debugger
-  return JsonBig.parse(data)
+  return data ? JsonBig.parse(data) : {}
 }]
 
 // 请求拦截器

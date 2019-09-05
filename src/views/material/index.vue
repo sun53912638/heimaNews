@@ -10,15 +10,19 @@
           <el-card class="img-card" v-for="item in list" :key="item.id">
             <img :src="item.url" alt />
             <el-row class="operate" type="flex" align="middle" justify="space-around">
-              <i :style="{color: item.is_collected ? 'yellow' : '#266'}" class="el-icon-star-on"></i>
-              <i class="el-icon-delete-solid"></i>
+              <i
+                @click="collectOrCancal(item)"
+                :style="{color: item.is_collected ? 'yellow' : '#266'}"
+                class="el-icon-star-on"
+              ></i>
+              <i @click="delImg(item.id)" class="el-icon-delete-solid"></i>
             </el-row>
           </el-card>
         </div>
         <el-row type="flex" justify="center">
           <el-pagination
             @current-change="changePage"
-            :page-size="pageSize"
+            :page-size="page.pageSize"
             :current-page="page.page"
             background
             layout="prev, pager, next"
@@ -36,7 +40,7 @@
         <el-row type="flex" justify="center">
           <el-pagination
             @current-change="changePage"
-            :page-size="pageSize"
+            :page-size="page.pageSize"
             :current-page="page.page"
             background
             layout="prev, pager, next"
@@ -62,6 +66,30 @@ export default {
     }
   },
   methods: {
+    collectOrCancal (item) {
+      let mess = item.is_collected ? '取消' : ''
+      this.$confirm(`您确认要${mess}收藏么`, '悄悄话').then(() => {
+        this.$http({
+          url: `/user/images/${item.id}`, // 参数前面的/一定要写
+          method: 'put',
+          data: {
+            collect: !item.is_collected
+          }
+        }).then(res => {
+          this.getMaterial()
+        })
+      })
+    },
+    delImg (id) {
+      this.$confirm('您确定不要它了哦', '叮铃铃').then(() => {
+        this.$http({
+          method: 'delete',
+          url: `/user/images/${id}`
+        }).then(res => {
+          this.getMaterial()
+        })
+      })
+    },
     changePage (newPage) {
       this.page.page = newPage
       this.getMaterial()
@@ -113,6 +141,9 @@ export default {
         bottom: 0;
         font-size: 18px;
         color: #266;
+        i {
+          cursor: pointer;
+        }
       }
     }
   }
