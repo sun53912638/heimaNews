@@ -10,7 +10,7 @@
       v-loading="loading"
       element-loading-text="玩命奔跑中,小主请稍后...................................................."
       element-loading-spinner="el-icon-loading"
-      element-loading-background="rgba(234, 133, 145, 0.8)"
+      element-loading-background="rgba(1, 1, 1, 0.8)"
     >
       <el-table-column width="600" prop="title" label="标题"></el-table-column>
       <el-table-column align="center" :formatter="formatter" prop="comment_status" label="评论状态"></el-table-column>
@@ -98,7 +98,7 @@ export default {
       return row.comment_status ? '正常' : '关闭'
     },
     getVomments () { // 请求文章列表
-      this.loading = true
+      this.loading = true// 请求数据之前把进度条打开
       this.$http({
         url: '/articles',
         params: {
@@ -107,7 +107,7 @@ export default {
           per_page: this.page.pageSize
         }
       }).then(res => {
-        this.loading = false
+        this.loading = false// 响应数据之后把进度条关闭
         this.list = res.data.results
         this.page.total = res.data.total_count
         console.log(res.data.results)

@@ -2,7 +2,7 @@
   <el-row class="layout-header" type="flex" justify="space-between">
     <el-col :span="7" class="left">
       <i class="el-icon-s-unfold"></i>
-      <span>江苏传智播客教育科技股份有限公司</span>
+      <span>  内蒙古呼伦贝尔英杰股份有限公司</span>
     </el-col>
     <el-col :span="3" class="right">
       <img class="head-img" :src="userInfo.photo ? userInfo.photo : defaultImg" alt />
