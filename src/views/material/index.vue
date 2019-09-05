@@ -15,6 +15,16 @@
             </el-row>
           </el-card>
         </div>
+        <el-row type="flex" justify="center">
+          <el-pagination
+            @current-change="changePage"
+            :page-size="pageSize"
+            :current-page="page.page"
+            background
+            layout="prev, pager, next"
+            :total="page.total"
+          ></el-pagination>
+        </el-row>
       </el-tab-pane>
       <el-tab-pane label="收藏内容" name="collect">
         <!-- 收藏内容 -->
@@ -23,6 +33,16 @@
             <img :src="item.url" alt />
           </el-card>
         </div>
+        <el-row type="flex" justify="center">
+          <el-pagination
+            @current-change="changePage"
+            :page-size="pageSize"
+            :current-page="page.page"
+            background
+            layout="prev, pager, next"
+            :total="page.total"
+          ></el-pagination>
+        </el-row>
       </el-tab-pane>
     </el-tabs>
   </el-card>
@@ -33,21 +53,34 @@ export default {
   data () {
     return {
       activeName: 'all',
-      list: []
+      list: [],
+      page: {
+        page: 1,
+        pageSize: 10,
+        total: 100
+      }
     }
   },
   methods: {
+    changePage (newPage) {
+      this.page.page = newPage
+      this.getMaterial()
+    },
     changeTab () {
+      this.page.page = 1
       this.getMaterial()
     },
     getMaterial () {
       this.$http({
         url: '/user/images',
         params: {
+          page: this.page.page,
+          per_page: this.page.pageSize,
           collect: this.activeName === 'collect' // 为true查询全部数据,为false查询收藏数据
         }
       }).then(res => {
         this.list = res.data.results
+        this.page.total = res.data.total_count
       })
     }
   },
