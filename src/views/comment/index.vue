@@ -4,7 +4,14 @@
     <bread-crumb slot="header">
       <template slot="title">评论列表</template>
     </bread-crumb>
-    <el-table :data="list" stripe >
+    <el-table
+      :data="list"
+      stripe
+      v-loading="loading"
+      element-loading-text="玩命奔跑中,小主请稍后...................................................."
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="rgba(234, 133, 145, 0.8)"
+    >
       <el-table-column width="600" prop="title" label="标题"></el-table-column>
       <el-table-column align="center" :formatter="formatter" prop="comment_status" label="评论状态"></el-table-column>
       <el-table-column align="center" prop="total_comment_count" label="总评论数"></el-table-column>
@@ -23,7 +30,15 @@
       </el-table-column>
     </el-table>
     <el-row type="flex" justify="center" style="margin : 10px 0">
-      <el-pagination @current-change="changePage" highlight-current-row :current-change="page.page" :page-size="page.pageSize" :total="page.total" background layout="prev, pager, next"></el-pagination>
+      <el-pagination
+        @current-change="changePage"
+        highlight-current-row
+        :current-change="page.page"
+        :page-size="page.pageSize"
+        :total="page.total"
+        background
+        layout="prev, pager, next"
+      ></el-pagination>
     </el-row>
   </el-card>
 </template>
@@ -37,7 +52,8 @@ export default {
         page: 1,
         pageSize: 10,
         total: 0
-      }
+      },
+      loading: true
     }
   },
   methods: {
@@ -46,7 +62,8 @@ export default {
       this.page.page = newPage
       this.getVomments()
     },
-    getConment (row) { // 打开或关闭评论
+    getConment (row) {
+      // 打开或关闭评论
       let mess = row.comment_status ? '关闭' : '打开'
       this.$confirm(`嘿,你要${mess}评论嘛`, '悄悄话', {
         confirmButtonText: '嗯呢',
@@ -80,11 +97,17 @@ export default {
       // formatter是el-column的属性可以根据布尔值显示数据
       return row.comment_status ? '正常' : '关闭'
     },
-    getVomments () {
+    getVomments () { // 请求文章列表
+      this.loading = true
       this.$http({
         url: '/articles',
-        params: { response_type: 'comment', page: this.page.page, per_page: this.page.pageSize }
+        params: {
+          response_type: 'comment',
+          page: this.page.page,
+          per_page: this.page.pageSize
+        }
       }).then(res => {
+        this.loading = false
         this.list = res.data.results
         this.page.total = res.data.total_count
         console.log(res.data.results)
