@@ -49,7 +49,7 @@
             <i class="el-icon-edit">修改</i>
           </span>
           <span>
-            <i class="el-icon-delete">删除</i>
+            <i @click="delInfo(item)" class="el-icon-delete">删除</i>
           </span>
         </div>
       </div>
@@ -80,6 +80,16 @@ export default {
     }
   },
   methods: {
+    delInfo (item) {
+      this.$confirm('您不要它了嘛', '悄悄话').then(() => {
+        this.$http({
+          method: 'delete',
+          url: `/articles/${item.id.toString()}`
+        }).then(() => {
+          this.getConditionArticle()
+        })
+      })
+    },
     changePage (newPage) {
       this.page.page = newPage
       this.getConditionArticle()
