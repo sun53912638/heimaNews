@@ -20,7 +20,7 @@
       </el-form-item>
       <el-form-item label="时间选择:">
         <el-date-picker
-        @change="changeCondition"
+          @change="changeCondition"
           type="daterange"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
@@ -39,7 +39,7 @@
           <img :src="item.cover.images.length ? item.cover.images[0] :iconImg" alt />
           <div class="info">
             <span class="title">{{item.title}}</span>
-            <el-tag type="success" style="width:60px">{{item.status | statusText}}</el-tag>
+            <el-tag :type="item.status | statusType" style="width:60px">{{item.status | statusText}}</el-tag>
             <span class="date">{{item.pubdate}}</span>
           </div>
         </div>
@@ -54,6 +54,9 @@
         </div>
       </div>
     </div>
+    <el-row type="flex" justify="center">
+      <el-pagination @current-change="changePage" :current-page="page.page" :page-size="page.pageSize" background layout="prev, pager, next" :total="page.total"></el-pagination>
+    </el-row>
   </el-card>
 </template>
 
@@ -68,18 +71,22 @@ export default {
         channel_id: null,
         dataRange: []
       },
-      channels: []
+      channels: [],
+      page: {
+        page: 1,
+        pageSize: 10,
+        total: 100
+      }
     }
   },
   methods: {
+    changePage (newPage) {
+      this.page.page = newPage
+      this.getConditionArticle()
+    },
     changeCondition () {
-      let params = {
-        status: this.searchForm.status === 5 ? null : this.searchForm.status,
-        channel_id: this.searchForm.channel_id,
-        begin_pubdate: this.searchForm.dataRange.length > 0 ? this.searchForm.dataRange[0] : null,
-        end_pubdate: this.searchForm.dataRange.length > 1 ? this.searchForm.dataRange[1] : null
-      }
-      this.getArticles(params)
+      this.page.page = 1
+      this.getConditionArticle()
     },
     getChannels () {
       this.$http({
@@ -89,12 +96,30 @@ export default {
         this.channels = res.data.channels
       })
     },
+    getConditionArticle () { // 组合查询条件
+      let params = {
+        status: this.searchForm.status === 5 ? null : this.searchForm.status,
+        channel_id: this.searchForm.channel_id,
+        begin_pubdate:
+          this.searchForm.dataRange.length > 0
+            ? this.searchForm.dataRange[0]
+            : null,
+        end_pubdate:
+          this.searchForm.dataRange.length > 1
+            ? this.searchForm.dataRange[1]
+            : null,
+        page: this.page.page,
+        per_page: this.page.pageSize
+      }
+      this.getArticles(params)
+    },
     getArticles (params) {
       this.$http({
         url: '/articles',
         params
       }).then(res => {
         this.list = res.data.results
+        this.page.total = res.data.total_count
       })
       console.log(this.list)
     }
@@ -114,6 +139,20 @@ export default {
           return '已发表'
         case 3:
           return '审核失败'
+        default:
+          break
+      }
+    },
+    statusType (val) { // 标签颜色类型过滤器
+      switch (val) {
+        case 0:
+          return 'warning'
+        case 1:
+          return 'info'
+        case 2:
+          return 'success'
+        case 3:
+          return 'danger'
         default:
           break
       }
