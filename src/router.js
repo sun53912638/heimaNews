@@ -31,6 +31,9 @@ export default new Router({
       }, {
         path: 'articles',
         component: () => import('./views/artices')
+      }, {
+        path: 'publish',
+        component: () => import('./views/publish')
       }]
     }
 
