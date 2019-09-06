@@ -5,23 +5,27 @@
     </bread-crumb>
     <el-form style="margin-left:40px" class="artices">
       <el-form-item label="文章状态:">
-        <el-radio-group>
-          <el-radio>全部</el-radio>
-          <el-radio>草稿</el-radio>
-          <el-radio>待审核</el-radio>
-          <el-radio>审核通过</el-radio>
-          <el-radio>审核失败</el-radio>
+        <el-radio-group @change="changeCondition" v-model="searchForm.status">
+          <el-radio :label="5">全部</el-radio>
+          <el-radio :label="0">草稿</el-radio>
+          <el-radio :label="1">待审核</el-radio>
+          <el-radio :label="2">审核通过</el-radio>
+          <el-radio :label="3">审核失败</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item label="频道列表:">
-        <!-- <el-select></el-select> -->
+        <el-select @change="changeCondition" v-model="searchForm.channel_id">
+          <el-option v-for="item in  channels" :key="item.id" :label="item.name" :value="item.id"></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="时间选择:">
         <el-date-picker
-          type="datetimerange"
-          range-separator="至"
+        @change="changeCondition"
+          type="daterange"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
+          v-model="searchForm.dataRange"
+          value-format="yyyy-MM-dd"
         ></el-date-picker>
       </el-form-item>
       <!-- 内容的页面结构 -->
@@ -58,13 +62,37 @@ export default {
   data () {
     return {
       list: [],
-      iconImg: require('../../assets/img/404.png')
+      iconImg: require('../../assets/img/404.png'),
+      searchForm: {
+        status: 5,
+        channel_id: null,
+        dataRange: []
+      },
+      channels: []
     }
   },
   methods: {
-    getArticles () {
+    changeCondition () {
+      let params = {
+        status: this.searchForm.status === 5 ? null : this.searchForm.status,
+        channel_id: this.searchForm.channel_id,
+        begin_pubdate: this.searchForm.dataRange.length > 0 ? this.searchForm.dataRange[0] : null,
+        end_pubdate: this.searchForm.dataRange.length > 1 ? this.searchForm.dataRange[1] : null
+      }
+      this.getArticles(params)
+    },
+    getChannels () {
       this.$http({
-        url: '/articles'
+        url: '/channels'
+      }).then(res => {
+        console.log(res.data.channels)
+        this.channels = res.data.channels
+      })
+    },
+    getArticles (params) {
+      this.$http({
+        url: '/articles',
+        params
       }).then(res => {
         this.list = res.data.results
       })
@@ -73,6 +101,7 @@ export default {
   },
   created () {
     this.getArticles()
+    this.getChannels()
   },
   filters: {
     statusText (val) {
