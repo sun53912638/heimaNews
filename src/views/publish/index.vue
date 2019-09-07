@@ -25,8 +25,8 @@
           </el-select>
       </el-form-item>
       <el-form-item>
-          <el-button @click="publish" type="primary">发表文章</el-button>
-          <el-button>存入草稿</el-button>
+          <el-button @click="publish(false)" type="primary">发表文章</el-button>
+          <el-button @click="publish(true)">存入草稿</el-button>
       </el-form-item>
   </el-form>
   </el-card>
@@ -64,15 +64,15 @@ export default {
     }
   },
   methods: {
-    publish () {
+    publish (draft) {
       this.$refs.publishForm.validate((isOk) => {
         if (isOk) {
+          let { articleId } = this.$route.params
           this.$http({
-            url: '/articles',
-            method: 'post',
+            url: articleId ? `/articles/${articleId}` : '/articles',
+            method: articleId ? 'put' : 'post',
             data: this.formData,
-            params: { draft: false }
-
+            params: { draft }
           }).then(res => {
             this.$router.push('/home/articles')
           })
