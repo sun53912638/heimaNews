@@ -29,8 +29,11 @@ export default new Router({
         path: 'material',
         component: () => import('./views/material')
       }, {
-        path: 'articles',
+        path: 'articles', // 内容管理
         component: () => import('./views/artices')
+      }, {
+        path: 'publish/:articleId', // 定义动态路由参数
+        component: () => import('./views/publish')
       }, {
         path: 'publish',
         component: () => import('./views/publish')

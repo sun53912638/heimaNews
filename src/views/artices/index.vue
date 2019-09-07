@@ -46,7 +46,7 @@
         <!-- 右侧内容 -->
         <div class="right">
           <span>
-            <i class="el-icon-edit">修改</i>
+            <i @click="modifyItem(item)" class="el-icon-edit">修改</i>
           </span>
           <span>
             <i @click="delInfo(item)" class="el-icon-delete">删除</i>
@@ -80,6 +80,9 @@ export default {
     }
   },
   methods: {
+    modifyItem (item) {
+      this.$router.push(`/home/publish/${item.id.toString()}`)
+    },
     delInfo (item) {
       this.$confirm('您不要它了嘛', '悄悄话').then(() => {
         this.$http({
