@@ -83,13 +83,26 @@ export default {
       this.$http({
         url: '/channels'
       }).then(res => {
-        console.log(res.data.channels)
+        // console.log(res.data.channels)
         this.channels = res.data.channels
+      })
+    },
+    getArticleByid (articleId) {
+      this.$http({
+        url: `/articles/${articleId}`
+      }).then(res => {
+        this.formData = res.data
+        console.log(res.data)
       })
     }
   },
   created () {
     this.getChannels()
+    let { articleId } = this.$route.params // 获取id
+    if (articleId) {
+      // 如果id存在修改文章通过id获取当前的文章数据
+      this.getArticleByid(articleId)
+    }
   }
 }
 </script>

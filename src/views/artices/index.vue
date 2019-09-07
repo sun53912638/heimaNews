@@ -105,7 +105,6 @@ export default {
       this.$http({
         url: '/channels'
       }).then(res => {
-        console.log(res.data.channels)
         this.channels = res.data.channels
       })
     },
@@ -134,7 +133,6 @@ export default {
         this.list = res.data.results
         this.page.total = res.data.total_count
       })
-      console.log(this.list)
     }
   },
   created () {
