@@ -12,7 +12,7 @@
           <quill-editor style="height:400px; width:900px" v-model="formData.content" type="textarea" :rows="4"></quill-editor>
       </el-form-item>
       <el-form-item label="封面" style="margin-top:120px">
-          <el-radio-group v-model="formData.cover.type">
+          <el-radio-group @change="changeCoverType" v-model="formData.cover.type">
               <el-radio :label="1">单图</el-radio>
               <el-radio :label="2">三图</el-radio>
               <el-radio :label="0">无图</el-radio>
@@ -64,6 +64,15 @@ export default {
     }
   },
   methods: {
+    changeCoverType () {
+      if (this.formData.cover.type === 1) {
+        this.formData.cover.images = ['']// 有一张封面 待选择
+      } else if (this.formData.cover.type === 2) {
+        this.formData.cover.images = ['', '', '']// 有三张封面待选择
+      } else {
+        this.formData.cover.images = []// 自动或者无图
+      }
+    },
     publish (draft) {
       this.$refs.publishForm.validate((isOk) => {
         if (isOk) {
