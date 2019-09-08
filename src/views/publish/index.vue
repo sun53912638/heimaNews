@@ -19,7 +19,7 @@
               <el-radio :label="-1">自动</el-radio>
           </el-radio-group>
           <!-- 封面图片组件 -->
-          <cover-image :images="formData.cover.images"></cover-image>
+          <cover-image @onselectImg="receiveImg" :images="formData.cover.images"></cover-image>
       </el-form-item>
       <el-form-item label="频道" prop="channel_id">
           <el-select v-model="formData.channel_id">
@@ -66,6 +66,10 @@ export default {
     }
   },
   methods: {
+    receiveImg (url, index) {
+      // map循环数组,第一个参数是全部数字,第二个参数是索引值,回调函数必须要return一个值,值会返回到数组中
+      this.formData.cover.images = this.formData.cover.images.map((item, i) => i === index ? url : item)
+    },
     changeCoverType () {
       if (this.formData.cover.type === 1) {
         this.formData.cover.images = ['']// 有一张封面 待选择

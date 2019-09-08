@@ -3,6 +3,7 @@ import leftAside from './home/leftaside.vue'
 import layoutHeader from './home/layout-header.vue'
 import breadCrumb from './common/breadCrumb.vue'
 import coverImage from '../compnents/publish/cover-image.vue'
+import selectImage from '../compnents/publish/select-image.vue'
 // require styles
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
@@ -17,5 +18,6 @@ export default {
     Vue.component('bread-crumb', breadCrumb)// 面包屑
     Vue.component('quill-editor', quillEditor)// 富文本
     Vue.component('cover-image', coverImage)// 注册文章封面组件
+    Vue.component('select-image', selectImage)// 封面对话框
   }
 }
