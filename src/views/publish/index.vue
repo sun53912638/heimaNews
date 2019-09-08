@@ -14,7 +14,7 @@
       <el-form-item label="封面" style="margin-top:120px">
           <el-radio-group @change="changeCoverType" v-model="formData.cover.type">
               <el-radio :label="1">单图</el-radio>
-              <el-radio :label="2">三图</el-radio>
+              <el-radio :label="3">三图</el-radio>
               <el-radio :label="0">无图</el-radio>
               <el-radio :label="-1">自动</el-radio>
           </el-radio-group>
@@ -67,13 +67,13 @@ export default {
   },
   methods: {
     receiveImg (url, index) {
-      // map循环数组,第一个参数是全部数字,第二个参数是索引值,回调函数必须要return一个值,值会返回到数组中
+      // map循环数组返回一个新的数组,第一个参数是全部数字,第二个参数是索引值,回调函数必须要return一个值,值会返回到数组中
       this.formData.cover.images = this.formData.cover.images.map((item, i) => i === index ? url : item)
     },
     changeCoverType () {
       if (this.formData.cover.type === 1) {
         this.formData.cover.images = ['']// 有一张封面 待选择
-      } else if (this.formData.cover.type === 2) {
+      } else if (this.formData.cover.type === 3) {
         this.formData.cover.images = ['', '', '']// 有三张封面待选择
       } else {
         this.formData.cover.images = []// 自动或者无图
