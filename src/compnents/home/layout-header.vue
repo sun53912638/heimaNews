@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import eventBus from '../../utils/eventBus'
 export default {
   data () {
     return {
@@ -35,7 +36,7 @@ export default {
         url: '/user/profile'
       }).then(res => {
         this.userInfo = res.data
-        console.log(this.userInfo)
+        // console.log(this.userInfo)
       })
     },
     handleMenuItem (command) { // command属性是element的
@@ -51,6 +52,9 @@ export default {
 
   },
   created () {
+    eventBus.$on('updateUserInfo', () => {
+      this.getUserInfo()
+    })// 一开始一直监听电话信息,听电话=> 做动作,那边用户信息保存成功,这边立刻从新拉取数据信息
     this.getUserInfo()
   }
 }
