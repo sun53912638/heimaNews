@@ -2,7 +2,7 @@
 <!-- 最外侧 -->
 <el-container>
   <!-- 左侧 -->
-  <el-aside style="width:200px;background: #3db89b">
+  <el-aside :style="{width:collapse ? '60px' : '200px'}" style="background: #3db89b">
     <left-aside></left-aside>
   </el-aside>
   <!-- 右侧 -->
@@ -20,8 +20,18 @@
 </template>
 
 <script>
-
+import eventBus from '../../utils/eventBus'
 export default {
+  data () {
+    return {
+      collapse: false
+    }
+  },
+  created () {
+    eventBus.$on('openOrClose', (status) => { // 听电话接收参数
+      this.collapse = status
+    })
+  }
 }
 </script>
 

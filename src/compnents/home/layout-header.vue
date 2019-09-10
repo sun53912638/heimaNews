@@ -1,8 +1,8 @@
 <template>
   <el-row class="layout-header" type="flex" justify="space-between">
     <el-col :span="7" class="left">
-      <i class="el-icon-s-unfold"></i>
-      <span>  内蒙古呼伦贝尔英杰股份有限公司</span>
+      <i @click="openOrClose" :class="{'el-icon-s-unfold':!close,'el-icon-s-fold':close}" class="icon"></i>
+      <span>北京市英杰网络科技有限公司</span>
     </el-col>
     <el-col :span="3" class="right">
       <img class="head-img" :src="userInfo.photo ? userInfo.photo : defaultImg" alt />
@@ -26,11 +26,16 @@ import eventBus from '../../utils/eventBus'
 export default {
   data () {
     return {
+      close: true, // 默认是展开
       userInfo: {},
       defaultImg: require('../../assets/img/avatar.jpg')// 转成base64字符串,因为三元表达式不会将路径转成字符串,vue不认识,所以这么操作
     }
   },
   methods: {
+    openOrClose () { // 展开或者折叠导航栏
+      this.close = !this.close
+      eventBus.$emit('openOrClose', this.close)// 拨号携带参数布尔值
+    },
     getUserInfo () {
       this.$http({
         url: '/user/profile'
@@ -66,7 +71,7 @@ export default {
   .left {
     display: flex;
     align-items: center;
-    .el-icon-s-unfold {
+    .icon {
       font-size: 22px;
       margin-right: 2px;
     }

@@ -1,13 +1,15 @@
 <template>
   <div class="leftaside">
     <div class="top">
-      <img src="../../assets/img/logo_admin.png" alt />
+      <img :src="collapse ? smallImg : bigImg" alt />
     </div>
     <el-menu
       background-color="#3db89b"
       text-color="#fef"
-     active-text-color="#ffd04b"
+      active-text-color="#ffd04b"
+      :style="{width:collapse ? '61px' : '201px'}"
       router
+      :collapse="collapse"
       style="border:none"
     >
       <el-menu-item index="/">
@@ -47,17 +49,33 @@
 </template>
 
 <script>
-export default {}
+import eventBus from '../../utils/eventBus'
+export default {
+  data () {
+    return {
+      collapse: false,
+      smallImg: require('../../assets/img/toutiao.png'),
+      bigImg: require('../../assets/img/logo_admin.png')
+    }
+  },
+  created () {
+    eventBus.$on('openOrClose', (status) => { // 听电话接收参数
+      this.collapse = status
+    })
+  }
+}
 </script>
 
 <style lang='less' scoped>
 .leftaside {
-  width: 200px;
   height: 100vh;
   background: #3db89b;
+  i {
+    color: #668;
+  }
   .top {
     height: 50px;
-    background-color:rgb(189, 234, 245);
+    background-color:rgb(195, 213, 219);
     text-align: center;
     padding-top: 6px;
     img {
