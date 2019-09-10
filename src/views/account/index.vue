@@ -3,6 +3,9 @@
     <bread-crumb slot="header">
         <template slot="title">个人信息</template>
     </bread-crumb>
+      <el-upload  v-loading="loading" action="" :http-request="uploadHeadImg" :show-file-list="false">
+        <img class="photo" :src="userInfo.photo || dafaultImg" alt="">
+      </el-upload>
     <el-form ref="userForm" :model="userInfo" :rules="userRules" label-width="100px" style="margin-left:40px">
         <el-form-item label="用户名" prop="name">
             <el-input v-model="userInfo.name" style="width:300px"></el-input>
@@ -27,6 +30,8 @@
 export default {
   data () {
     return {
+      dafaultImg: require('../../assets/img/pic_bg.png'),
+      loading: '',
       userInfo: {
         name: '',
         intro: '',
@@ -56,6 +61,19 @@ export default {
     }
   },
   methods: {
+    uploadHeadImg (params) {
+      this.loading = true// 显示进度条
+      let image = new FormData()
+      image.append('photo', params.file)
+      this.$http({
+        url: '/user/photo',
+        method: 'patch',
+        data: image
+      }).then(() => {
+        this.loading = false
+        this.getUserInfo()
+      })
+    },
     saveUserInfo () {
       this.$refs.userForm.validate((isOk) => {
         if (isOk) {
@@ -84,6 +102,14 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less" scoped>
+   .photo {
+     width: 220px;
+    height: 220px;
+    position: absolute;
+    left: 860px;
+    border-radius: 50%;
+    border:2px solid #655
+  }
 
 </style>
