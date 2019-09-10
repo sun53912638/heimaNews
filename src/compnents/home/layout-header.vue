@@ -1,7 +1,7 @@
 <template>
   <el-row class="layout-header" type="flex" justify="space-between">
     <el-col :span="7" class="left">
-      <i @click="openOrClose" :class="{'el-icon-s-unfold':!close,'el-icon-s-fold':close}" class="icon"></i>
+      <i @click="openOrClose" :class="{'el-icon-s-unfold':close,'el-icon-s-fold':!close}" class="icon"></i>
       <span>北京市英杰网络科技有限公司</span>
     </el-col>
     <el-col :span="3" class="right">
@@ -26,7 +26,7 @@ import eventBus from '../../utils/eventBus'
 export default {
   data () {
     return {
-      close: true, // 默认是展开
+      close: false, // 默认是展开
       userInfo: {},
       defaultImg: require('../../assets/img/avatar.jpg')// 转成base64字符串,因为三元表达式不会将路径转成字符串,vue不认识,所以这么操作
     }
