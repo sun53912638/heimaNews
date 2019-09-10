@@ -3,11 +3,16 @@ import Router from 'vue-router'
 import Home from './views/home'
 import Login from './views/login'// 简写,会识别到这个文件夹下的index.vue
 import Main from './views/home/main.vue'
+import NotFount from './views/404.vue'
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
+    {
+      path: '*', // 匹配找不到页面的路由
+      component: NotFount
+    },
     {
       path: '/login',
       component: Login
