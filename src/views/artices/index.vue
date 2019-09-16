@@ -83,15 +83,13 @@ export default {
     modifyItem (item) {
       this.$router.push(`/home/publish/${item.id.toString()}`)
     },
-    delInfo (item) {
-      this.$confirm('您不要它了嘛', '悄悄话').then(() => {
-        this.$http({
-          method: 'delete',
-          url: `/articles/${item.id.toString()}`
-        }).then(() => {
-          this.getConditionArticle()
-        })
+    async delInfo (item) {
+      await this.$confirm('您不要它了嘛', '悄悄话')
+      await this.$http({
+        method: 'delete',
+        url: `/articles/${item.id.toString()}`
       })
+      this.getConditionArticle()
     },
     changePage (newPage) {
       this.page.page = newPage
@@ -125,14 +123,13 @@ export default {
       }
       this.getArticles(params)
     },
-    getArticles (params) {
-      this.$http({
+    async getArticles (params) {
+      let res = await this.$http({
         url: '/articles',
         params
-      }).then(res => {
-        this.list = res.data.results
-        this.page.total = res.data.total_count
       })
+      this.list = res.data.results
+      this.page.total = res.data.total_count
     }
   },
   created () {

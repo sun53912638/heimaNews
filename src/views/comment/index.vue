@@ -62,36 +62,26 @@ export default {
       this.page.page = newPage
       this.getVomments()
     },
-    getConment (row) {
+    async getConment (row) {
       // 打开或关闭评论
       let mess = row.comment_status ? '关闭' : '打开'
-      this.$confirm(`嘿,你要${mess}评论嘛`, '悄悄话', {
+      await this.$confirm(`嘿,你要${mess}评论嘛`, '悄悄话', {
         confirmButtonText: '嗯呢',
         cancelButtonText: '再考虑一下',
         type: 'warning',
         center: true
       })
-        .then(() => {
-          this.$http({
-            method: 'put',
-            url: '/comments/status',
-            params: { article_id: row.id.toString() },
-            data: { allow_comment: !row.comment_status }
-          }).then(res => {
-            this.getVomments()
-          })
-          console.log(row.id.toString())
-          this.$message({
-            type: 'success',
-            message: `已经${mess}了哦!`
-          })
-        })
-        .catch(() => {
-          this.$message({
-            type: 'info',
-            message: '别人可以评论你喽'
-          })
-        })
+      await this.$http({
+        method: 'put',
+        url: '/comments/status',
+        params: { article_id: row.id.toString() },
+        data: { allow_comment: !row.comment_status }
+      })
+      this.getVomments()
+      this.$message({
+        type: 'success',
+        message: `已经${mess}了哦!`
+      })
     },
     formatter (row) {
       // formatter是el-column的属性可以根据布尔值显示数据

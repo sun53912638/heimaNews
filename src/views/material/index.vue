@@ -71,41 +71,36 @@ export default {
     }
   },
   methods: {
-    uploadImg (params) { // 选择完图片之后执行
+    async uploadImg (params) { // 选择完图片之后执行
       let obj = new FormData()
       obj.append('image', params.file)
       console.log(params)
-      this.$http({
+      await this.$http({
         url: '/user/images',
         method: 'post',
         data: obj
-      }).then(res => {
-        this.getMaterial()
       })
+      this.getMaterial()
     },
-    collectOrCancal (item) {
+    async collectOrCancal (item) {
       let mess = item.is_collected ? '取消' : ''
-      this.$confirm(`您确认要${mess}收藏么`, '悄悄话').then(() => {
-        this.$http({
-          url: `/user/images/${item.id}`, // 参数前面的/一定要写
-          method: 'put',
-          data: {
-            collect: !item.is_collected
-          }
-        }).then(res => {
-          this.getMaterial()
-        })
+      await this.$confirm(`您确认要${mess}收藏么`, '悄悄话')
+      await this.$http({
+        url: `/user/images/${item.id}`, // 参数前面的/一定要写
+        method: 'put',
+        data: {
+          collect: !item.is_collected
+        }
       })
+      this.getMaterial()
     },
-    delImg (id) {
-      this.$confirm('您确定不要它了哦', '叮铃铃').then(() => {
-        this.$http({
-          method: 'delete',
-          url: `/user/images/${id}`
-        }).then(res => {
-          this.getMaterial()
-        })
+    async delImg (id) {
+      await this.$confirm('您确定不要它了哦', '叮铃铃')
+      await this.$http({
+        method: 'delete',
+        url: `/user/images/${id}`
       })
+      this.getMaterial()
     },
     changePage (newPage) {
       this.page.page = newPage
@@ -115,18 +110,17 @@ export default {
       this.page.page = 1
       this.getMaterial()
     },
-    getMaterial () {
-      this.$http({
+    async getMaterial () {
+      let res = await this.$http({
         url: '/user/images',
         params: {
           page: this.page.page,
           per_page: this.page.pageSize,
           collect: this.activeName === 'collect' // 为true查询全部数据,为false查询收藏数据
         }
-      }).then(res => {
-        this.list = res.data.results
-        this.page.total = res.data.total_count
       })
+      this.list = res.data.results
+      this.page.total = res.data.total_count
     }
   },
   created () {
@@ -159,6 +153,7 @@ export default {
         position: absolute;
         width: 100%;
         height: 30px;
+        background-color: #eff;
         left: 0;
         bottom: 0;
         font-size: 18px;

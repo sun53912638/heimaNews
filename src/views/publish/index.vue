@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import { async } from 'q'
 export default {
   data () {
     let validator = function (rule, value, callBack) {
@@ -104,35 +105,31 @@ export default {
       }
     },
     publish (draft) {
-      this.$refs.publishForm.validate((isOk) => {
+      this.$refs.publishForm.validate(async (isOk) => {
         if (isOk) {
           let { articleId } = this.$route.params
-          this.$http({
+          await this.$http({
             url: articleId ? `/articles/${articleId}` : '/articles',
             method: articleId ? 'put' : 'post',
             data: this.formData,
             params: { draft }
-          }).then(res => {
-            this.$router.push('/home/articles')
           })
+          this.$router.push('/home/articles')
         }
       })
     },
-    getChannels () {
-      this.$http({
+    async getChannels () {
+      let res = await this.$http({
         url: '/channels'
-      }).then(res => {
-        // console.log(res.data.channels)
-        this.channels = res.data.channels
       })
+      this.channels = res.data.channels
     },
-    getArticleByid (articleId) {
-      this.$http({
+    async getArticleByid (articleId) {
+      let res = await this.$http({
         url: `/articles/${articleId}`
-      }).then(res => {
-        this.formData = res.data
-        console.log(res.data)
       })
+      this.formData = res.data
+      console.log(res.data)
     }
   },
   created () {
